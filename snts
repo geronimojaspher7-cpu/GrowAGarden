@@ -1,0 +1,160 @@
+ocal Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+local Lighting = game:GetService("Lighting")
+local StarterGui = game:GetService("StarterGui")
+local player = Players.LocalPlayer
+
+--// GUI Library (ShowRayfield Style)
+local Rayfield = Instance.new("ScreenGui", player.PlayerGui)
+Rayfield.Name = "SNTS_MAIN"
+Rayfield.ResetOnSpawn = false
+
+--// Frame
+local MainFrame = Instance.new("Frame", Rayfield)
+MainFrame.Size = UDim2.new(0, 320, 0, 380)
+MainFrame.Position = UDim2.new(0.5, -160, 0.5, -190)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.BorderSizePixel = 0
+MainFrame.BackgroundTransparency = 0.1
+MainFrame.ClipsDescendants = true
+
+--// Title
+local Title = Instance.new("TextLabel", MainFrame)
+Title.Size = UDim2.new(1,0,0,40)
+Title.BackgroundTransparency = 1
+Title.Text = "SNTS MAIN CHEAT"
+Title.Font = Enum.Font.GothamBold
+Title.TextColor3 = Color3.fromRGB(255,0,0)
+Title.TextSize = 22
+
+--// Subtitle
+local Subtitle = Instance.new("TextLabel", MainFrame)
+Subtitle.Size = UDim2.new(1,0,0,20)
+Subtitle.Position = UDim2.new(0,0,0,35)
+Subtitle.BackgroundTransparency = 1
+Subtitle.Text = "ISA KANG TANGA"
+Subtitle.Font = Enum.Font.GothamSemibold
+Subtitle.TextColor3 = Color3.fromRGB(200,200,200)
+Subtitle.TextSize = 16
+
+--// Loader
+local Loader = Instance.new("TextLabel", Rayfield)
+Loader.Size = UDim2.new(0,200,0,50)
+Loader.Position = UDim2.new(0.5,-100,0.5,-25)
+Loader.BackgroundColor3 = Color3.fromRGB(0,0,0)
+Loader.Text = "MADE BY ACE"
+Loader.Font = Enum.Font.GothamBold
+Loader.TextColor3 = Color3.fromRGB(255,255,255)
+Loader.TextSize = 22
+Loader.BorderSizePixel = 0
+wait(2)
+Loader:Destroy()
+
+--// BUTTON CREATOR FUNCTION
+local function CreateButton(name,callback)
+    local Button = Instance.new("TextButton", MainFrame)
+    Button.Size = UDim2.new(1,-20,0,35)
+    Button.Position = UDim2.new(0,10,0,60 + (#MainFrame:GetChildren()-3)*40)
+    Button.BackgroundColor3 = Color3.fromRGB(40,40,40)
+    Button.Text = name
+    Button.Font = Enum.Font.GothamBold
+    Button.TextColor3 = Color3.fromRGB(255,255,255)
+    Button.TextSize = 16
+    Button.MouseButton1Click:Connect(callback)
+end
+
+--// ESP
+CreateButton("ESP", function()
+    for _,v in pairs(Players:GetPlayers()) do
+        if v ~= player then
+            local highlight = Instance.new("Highlight")
+            highlight.Parent = v.Character
+            highlight.FillColor = Color3.fromRGB(255,0,0)
+            highlight.OutlineColor = Color3.fromRGB(255,255,255)
+        end
+    end
+end)
+
+--// GUN SPAWNER
+CreateButton("Spawn Gun", function()
+    for _,tool in pairs(ReplicatedStorage:GetChildren()) do
+        if tool:IsA("Tool") then
+            local clone = tool:Clone()
+            clone.Parent = player.Backpack
+        end
+    end
+end)
+
+--// TOOL DUPLICATOR
+CreateButton("Duplicate Tools", function()
+    for _,tool in pairs(player.Backpack:GetChildren()) do
+        if tool:IsA("Tool") then
+            local clone = tool:Clone()
+            clone.Parent = player.Backpack
+        end
+    end
+end)
+
+--// SKYBOX CHANGER
+CreateButton("Skybox Changer", function()
+    local sky = Instance.new("Sky", Lighting)
+    sky.SkyboxBk = "rbxassetid://6880438687"
+    sky.SkyboxDn = "rbxassetid://6880438687"
+    sky.SkyboxFt = "rbxassetid://6880438687"
+    sky.SkyboxLf = "rbxassetid://6880438687"
+    sky.SkyboxRt = "rbxassetid://6880438687"
+    sky.SkyboxUp = "rbxassetid://6880438687"
+end)
+
+--// PASABOG NG SYUDAD
+CreateButton("Pasabog ng Syudad", function()
+    for i=1,10 do
+        local explosion = Instance.new("Explosion")
+        explosion.Position = player.Character.HumanoidRootPart.Position + Vector3.new(math.random(-50,50),0,math.random(-50,50))
+        explosion.BlastRadius = 15
+        explosion.BlastPressure = 500000
+        explosion.Parent = Workspace
+    end
+end)
+
+--// VIRUS SCREEN
+CreateButton("Virus Screen", function()
+    for _,plr in pairs(Players:GetPlayers()) do
+        StarterGui:SetCore("SendNotification", {
+            Title = "SNTS VIRUS",
+            Text = "HAHA INFECTED KA!",
+            Duration = 5
+        })
+    end
+end)
+
+--// CRASH SERVER
+CreateButton("Crash Server", function()
+    while true do
+        local explosion = Instance.new("Explosion")
+        explosion.Position = player.Character.HumanoidRootPart.Position
+        explosion.Parent = Workspace
+        wait()
+    end
+end)
+
+--// CHAT COMMANDS (;fly, ;kill, ;god)
+player.Chatted:Connect(function(msg)
+    if msg == ";fly" then
+        local hum = player.Character:FindFirstChildOfClass("Humanoid")
+        if hum then hum:ChangeState(Enum.HumanoidStateType.Physics) end
+    elseif msg:sub(1,5) == ";kill" then
+        local target = msg:sub(7)
+        for _,plr in pairs(Players:GetPlayers()) do
+            if string.find(plr.Name:lower(), target:lower()) then
+                plr.Character:BreakJoints()
+            end
+        end
+    elseif msg == ";god" then
+        local hum = player.Character:FindFirstChildOfClass("Humanoid")
+        if hum then hum.MaxHealth = math.huge hum.Health = math.huge end
+    end
+end)
